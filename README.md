@@ -2,6 +2,10 @@ Developed By Brian Riendeau Jr. &copy;
 
 # Local RAG Chatbot
 
+DEMO:
+<img width="3738" height="2055" alt="Rag1" src="https://github.com/user-attachments/assets/c6be59f9-d6c1-4c0c-8cff-2e11c973277b" />
+
+
 A fully local Retrieval-Augmented Generation (RAG) app built with:
 
 - **Microsoft Phi-3.5-mini-instruct** (runs on your GPU)
