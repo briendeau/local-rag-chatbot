@@ -1,8 +1,8 @@
 Developed By Brian Riendeau Jr. &copy;
 
-# Local RAG Chatbot
+# Local RAG Chatbot - A AI Document Assistant Application
 
-DEMO:
+DEMO (Upload any PDF documents you want the LLM to answer questions about):
 <img width="3738" height="2055" alt="Rag1" src="https://github.com/user-attachments/assets/c6be59f9-d6c1-4c0c-8cff-2e11c973277b" />
 
 
