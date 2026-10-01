@@ -1,79 +1,46 @@
-Developed By Brian Riendeau Jr. &copy;
+# Local RAG Document Assistant
 
-# Local RAG Chatbot
+Ask questions about your own PDFs. Answers are generated entirely on-device with **Phi-3.5-mini** and grounded in retrieved chunks. Sources (file, page, and preview snippet) print under every reply.
 
-A fully local Retrieval-Augmented Generation (RAG) app built with:
+No API keys required. After the initial model download, it runs fully offline on an NVIDIA GPU.
 
-- **Microsoft Phi-3.5-mini-instruct** (runs on your GPU)
-- **LangChain**
-- **Chroma** vector store
-- **Gradio** UI
+![Demo](https://github.com/user-attachments/assets/c6be59f9-d6c1-4c0c-8cff-2e11c973277b)
 
-Upload your own PDFs, ask questions, and get answers grounded in your documents — with retrieved source chunks shown under every reply. No API keys. Everything runs offline after setup.
+---
 
-## Features
+## How It Works
 
-- PDF upload from the UI
-- Automatic chunking + embedding
-- Persistent Chroma vector database
-- Source citations (filename, page, preview)
-- Streaming answers
-- Reset database button
-- Fully local (CUDA GPU)
+1. Upload one or more text-based PDFs in the Gradio UI.
+2. Pages are split into ~800-character chunks (with 150-character overlap).
+3. Chunks are embedded using `all-MiniLM-L6-v2` and stored locally in Chroma.
+4. A user question retrieves the top-3 most relevant chunks.
+5. Phi-3.5-mini answers using **only** that context.
+6. Filename, page number, and snippet sources are displayed directly under the answer.
 
-## Requirements
+*This is a working retrieval pipeline, not a wrapped external chatbot API.*
 
-- NVIDIA GPU with CUDA
-- Python 3.10+
-- ~8 GB+ VRAM recommended
+---
 
-## Installation
+## Technical Limitations
+
+* **Hardware Requirement:** Requires an NVIDIA GPU and a **CUDA build** of PyTorch (CPU wheels will crash on `device_map="cuda"`).
+* **PDF Types:** Supports text-based PDFs only. Scanned or image-only PDFs will index as empty and fail to retrieve.
+* **File Sizing:** Very large files (100MB+) are a poor first test; start with a few small documents.
+* **Environment:** Designed for a single local user via Gradio UI (no authentication or Docker containers yet).
+* **Dependencies:** Uses `langchain-community` (currently in maintenance, but loaders remain functional).
+
+---
+
+## Quick Start
+
+### 1. Environment Setup
 
 ```bash
-# CUDA-enabled PyTorch (adjust CUDA version if needed)
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+python -m venv .venv
 
-pip install langchain langchain-community langchain-huggingface chromadb pypdf sentence-transformers gradio transformers
-```
+# Windows activation:
+.venv\Scripts\activate
 
-
-# Usage
-- Put the project files in a folder and open a terminal there
-- Run:
-  ```bash 
-  python app.py
-  ```
-- Open the local URL (usually http://127.0.0.1:7860)
-- Upload one or more PDFs and add them to the knowledge base.
-- Ask your questions in the chatbox
-  
-# Reset
-- Use Reset Vector Database to clear the index. Upload new PDFs again to rebuild the database.
-
-# Project Structure
-local-rag-chatbot/
-├── app.py           # Main application
-├── docs/            # PDF documents
-├── chroma_db/       # Vector store (created at runtime)
-└── README.md
-
-# How it works
-- PDFs are split into ~800-character chunks
-- Chunks are embedded with sentence-transformers/all-MiniLM-L6-v2
-- Embeddings are stored in Chroma
-- On each question, the top matching chunks are retrieved
-- Phi-3.5 answers using only that context
-- Sources are displayed under the answer
-
-# Notes
-- Uses attn_implementation="eager" and use_cache=False for Phi-3.5 compatibility
-- First model download can take a few minutes
-- Generation speed depends on GPU and prompt length
-
-# Tech Stack
-- Phi-3.5-mini-instruct
-- LangChain
-- Chroma
-- Hugging Face Transformers + Sentence Transformers
-- Gradio
-- PyTorch (CUDA)
+# Install GPU PyTorch (use cu130 for modern RTX GPUs / newer drivers)
+pip install torch torchvision torchaudio --index-url [https://download.pytorch.org/whl/cu130](https://download.pytorch.org/whl/cu130)
+pip install accelerate langchain langchain-community langchain-huggingface chromadb pypdf sentence-transformers gradio transformers
