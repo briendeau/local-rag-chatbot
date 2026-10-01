@@ -84,12 +84,6 @@ OpenAI(api_key="ollama", base_url="http://localhost:11434/v1")
 - Live Python objects are not JSON. Persist a `dict` (`to_dict` / `from_dict`), not the object.
 - Chunking uses a sliding window (`size=300`, `overlap=50`) so search returns a passage, not a whole file.
 
-## Next
-
-- Persist embeddings (Chroma / similar) so files are not re-embedded every run
-- Citations (filename + chunk)
-- Tool calling (A5)
-- Thin API wrapper (FastAPI) for a real demo URL
 
 ## License
 
