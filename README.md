@@ -8,6 +8,14 @@ No API keys required. After the initial model download, it runs fully offline on
 
 ---
 
+## From-scratch rebuild
+
+The Gradio app above is the UI prototype.
+
+`aLectures/` is a from-scratch rebuild of the same retrieve-then-generate loop using Ollama (`llama3.2` + `nomic-embed-text`), cosine search, and file chunking — no LangChain or Chroma.
+
+See [aLectures/README.md](aLectures/README.md).
+
 ## How It Works
 
 1. Upload one or more text-based PDFs in the Gradio UI.
